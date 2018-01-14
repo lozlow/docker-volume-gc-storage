@@ -13,8 +13,8 @@ func (d *gcpVolDriver) mountGcsfuse(volumeName string) error {
 	bucketName := d.getGCPBucketName(volumeName)
 	// mount GCStorage bucket on host mounpoint
 	log.Printf("Mounting host mountpoint '%s' to Google Cloud Storage Bucket '%s'\n", m, bucketName)
-	log.Printf("Running: $ gcsfuse --key-file %s %s %s\n", d.gcpServiceKeyPath, bucketName, m)
-	cmd := exec.Command("gcsfuse", "--key-file", d.gcpServiceKeyPath, bucketName, m)
+	log.Printf("Running: $ gcsfuse -o allow_other --key-file %s %s %s\n", d.gcpServiceKeyPath, bucketName, m)
+	cmd := exec.Command("gcsfuse", "-o", "allow_other", "--key-file", d.gcpServiceKeyPath, bucketName, m)
 	if err := cmd.Run(); err != nil {
 		return err
 	}
